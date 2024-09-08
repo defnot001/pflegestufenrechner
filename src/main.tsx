@@ -6,13 +6,18 @@ import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ErrorPage } from './routes/error.tsx';
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <HomePage />,
+      errorElement: <ErrorPage />,
+    },
+  ],
   {
-    path: '/',
-    element: <HomePage />,
-    errorElement: <ErrorPage />,
-  },
-]);
+    basename: '/pflegestufenrechner',
+  }
+);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
