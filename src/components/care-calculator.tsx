@@ -1,17 +1,11 @@
 import { useState } from 'react';
-import { Info, Github, FileText, Scale, User } from 'lucide-react';
 import { Button } from './ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from './ui/dialog';
 import { ScrollArea } from './ui/scroll-area';
 import { categories } from '../lib/categories';
-import { Link } from 'react-router-dom';
+import { MainHeader } from './ui/header';
+import { ResultDialog } from './ui/result-dialog';
+import { ExclusiveDialog } from './ui/exclusive-warning';
+import { CategoryField } from './ui/category-field';
 
 export function CareCalculator() {
   const [selectedFields, setSelectedFields] = useState<Set<string>>(new Set());
@@ -49,72 +43,20 @@ export function CareCalculator() {
   };
 
   return (
-    <div className='container mx-auto p-4 max-w-2xl'>
-      <header className='mb-8'>
-        <h1 className='text-4xl font-bold text-center mb-4 bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text'>
-          Pflegestufenrechner
-        </h1>
-        <p className='text-center text-gray-600 mb-4'>
-          Tool zur Berechnung der Pflegestufe auf Basis der österreichischen Einstufungsverordnung
-          zum Bundespflegegeldgesetz
-        </p>
-        <nav className='flex justify-center space-x-4'>
-          <Link to='/about' className='flex items-center text-blue-600 hover:text-blue-800'>
-            <FileText className='w-4 h-4 mr-1' />
-            <span>Über uns</span>
-          </Link>
-          <Link to='/legal' className='flex items-center text-blue-600 hover:text-blue-800'>
-            <Scale className='w-4 h-4 mr-1' />
-            <span>Rechtliches</span>
-          </Link>
-          <Link to='/impressum' className='flex items-center text-blue-600 hover:text-blue-800'>
-            <User className='w-4 h-4 mr-1' />
-            <span>Impressum</span>
-          </Link>
-          <a
-            href='https://github.com/defnot001/pflegestufenrechner'
-            target='_blank'
-            rel='noopener noreferrer'
-            className='flex items-center text-blue-600 hover:text-blue-800'
-          >
-            <Github className='w-4 h-4 mr-1' />
-            <span>GitHub</span>
-          </a>
-        </nav>
-      </header>
+    <div className='mx-auto px-4 max-w-2xl'>
+      <MainHeader />
       <ScrollArea className='h-[calc(100vh-300px)] pr-4 mb-6'>
         {categories.map((category) => (
           <div key={category.name} className='mb-6'>
             <h2 className='text-xl font-semibold mb-3 text-center'>{category.name}</h2>
             <div className='space-y-2'>
               {category.fields.map((field) => (
-                <div key={field.id} className='flex'>
-                  <Button
-                    variant={selectedFields.has(field.id) ? 'default' : 'outline'}
-                    className='flex-grow justify-start h-12 px-4 text-left rounded-r-none'
-                    onClick={() => handleFieldChange(field.id, field.exclusive)}
-                  >
-                    {field.shortLabel}
-                  </Button>
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button
-                        variant='outline'
-                        size='icon'
-                        className='h-12 w-12 rounded-l-none border-l-0'
-                      >
-                        <Info className='h-4 w-4' />
-                        <span className='sr-only'>Info about {field.shortLabel}</span>
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>{field.label}</DialogTitle>
-                        <DialogDescription>{field.info}</DialogDescription>
-                      </DialogHeader>
-                    </DialogContent>
-                  </Dialog>
-                </div>
+                <CategoryField
+                  key={field.id}
+                  field={field}
+                  selectedFields={selectedFields}
+                  handleFieldChange={handleFieldChange}
+                />
               ))}
             </div>
           </div>
@@ -123,24 +65,16 @@ export function CareCalculator() {
       <Button onClick={handleSubmit} className='w-full h-12'>
         Pflegestufe berechnen
       </Button>
-      <Dialog open={isResultDialogOpen} onOpenChange={setIsResultDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Berechnungsergebnis</DialogTitle>
-            <DialogDescription>{calculationResult}</DialogDescription>
-          </DialogHeader>
-          <Button onClick={() => setIsResultDialogOpen(false)}>Schließen</Button>
-        </DialogContent>
-      </Dialog>
+      <ResultDialog
+        isResultDialogOpen={isResultDialogOpen}
+        setIsResultDialogOpen={setIsResultDialogOpen}
+        calculationResult={calculationResult}
+      />
       {exclusiveWarning && (
-        <Dialog open={!!exclusiveWarning} onOpenChange={() => setExclusiveWarning(null)}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Inkompatible Auswahl</DialogTitle>
-              <DialogDescription>{exclusiveWarning}</DialogDescription>
-            </DialogHeader>
-          </DialogContent>
-        </Dialog>
+        <ExclusiveDialog
+          exclusiveWarning={exclusiveWarning}
+          setExclusiveWarning={setExclusiveWarning}
+        />
       )}
     </div>
   );
