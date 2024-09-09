@@ -3,7 +3,7 @@ import { Github, FileText, Scale, User } from 'lucide-react';
 
 export function MainHeader() {
   return (
-    <header className='mb-8 mt-4'>
+    <header className='my-4'>
       <h1 className='text-4xl font-bold text-center mb-4 bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text'>
         Pflegestufenrechner
       </h1>
