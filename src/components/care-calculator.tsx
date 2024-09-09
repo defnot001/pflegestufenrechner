@@ -43,9 +43,9 @@ export function CareCalculator() {
   };
 
   return (
-    <div className='mx-auto px-4 max-w-2xl'>
+    <div className='mx-auto px-4 max-w-2xl h-svh'>
       <MainHeader />
-      <ScrollArea className='h-[calc(100vh-300px)] pr-4 mb-6'>
+      <ScrollArea className='h-[calc(100vh-280px)] pr-4 mb-6'>
         {categories.map((category) => (
           <div key={category.name} className='mb-6'>
             <h2 className='text-xl font-semibold mb-3 text-center'>{category.name}</h2>
@@ -62,7 +62,7 @@ export function CareCalculator() {
           </div>
         ))}
       </ScrollArea>
-      <Button onClick={handleSubmit} className='w-full h-12'>
+      <Button onClick={handleSubmit} className='h-12 fixed left-2 right-2 bottom-4'>
         Pflegestufe berechnen
       </Button>
       <ResultDialog
