@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { Button } from './ui/button';
-import { ScrollArea } from './ui/scroll-area';
-import { categories } from '../lib/categories';
 import { MainHeader } from './ui/header';
+import { Button } from './ui/button';
+import { categories, Exclusivity } from '../lib/categories';
+import { CategoryField } from './ui/category-field';
 import { ResultDialog } from './ui/result-dialog';
 import { ExclusiveDialog } from './ui/exclusive-warning';
-import { CategoryField } from './ui/category-field';
 
 export function CareCalculator() {
   const [selectedFields, setSelectedFields] = useState<Set<string>>(new Set());
@@ -13,23 +12,25 @@ export function CareCalculator() {
   const [calculationResult, setCalculationResult] = useState<string | null>(null);
   const [isResultDialogOpen, setIsResultDialogOpen] = useState(false);
 
-  const handleFieldChange = (fieldId: string, exclusive?: string[]) => {
+  const handleFieldChange = (conflictingFieldId: string, exclusive?: Exclusivity[]) => {
     setSelectedFields((prev) => {
       const newSet = new Set(prev);
-      if (newSet.has(fieldId)) {
-        newSet.delete(fieldId);
+
+      if (newSet.has(conflictingFieldId)) {
+        newSet.delete(conflictingFieldId);
       } else {
         if (exclusive) {
-          const conflictingField = exclusive.find((id) => newSet.has(id));
+          const conflictingField = exclusive.find((excl) => newSet.has(excl.conflictingFieldId));
+
           if (conflictingField) {
-            setExclusiveWarning(
-              `"${fieldId}" cannot be selected together with "${conflictingField}".`
-            );
+            setExclusiveWarning(conflictingField.conflictMessage);
             return prev;
           }
         }
-        newSet.add(fieldId);
+
+        newSet.add(conflictingFieldId);
       }
+
       return newSet;
     });
   };
@@ -43,9 +44,9 @@ export function CareCalculator() {
   };
 
   return (
-    <div className='mx-auto px-4 max-w-2xl h-svh'>
-      <MainHeader />
-      <ScrollArea className='h-[calc(100vh-280px)] pr-4 mb-6'>
+    <div className='h-[50shv] max-w-2xl mx-auto px-4'>
+      <div className='mb-16'>
+        <MainHeader />
         {categories.map((category) => (
           <div key={category.name} className='mb-6'>
             <h2 className='text-xl font-semibold mb-3 text-center'>{category.name}</h2>
@@ -61,10 +62,10 @@ export function CareCalculator() {
             </div>
           </div>
         ))}
-      </ScrollArea>
-      <Button onClick={handleSubmit} className='h-12 fixed left-2 right-2 bottom-4'>
-        Pflegestufe berechnen
-      </Button>
+        <Button onClick={handleSubmit} className='w-full h-12'>
+          Pflegestufe berechnen
+        </Button>
+      </div>
       <ResultDialog
         isResultDialogOpen={isResultDialogOpen}
         setIsResultDialogOpen={setIsResultDialogOpen}
