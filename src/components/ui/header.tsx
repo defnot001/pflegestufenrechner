@@ -24,7 +24,7 @@ export function MainHeader() {
           <span>Impressum</span>
         </Link>
         <a
-          href='https://github.com/defnot001/your-repo'
+          href='https://github.com/defnot001/pflegestufenrechner'
           target='_blank'
           rel='noopener noreferrer'
           className='flex items-center text-blue-600 hover:text-blue-800'
