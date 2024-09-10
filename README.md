@@ -1,50 +1,53 @@
-# React + TypeScript + Vite
+# Pflegestufenrechner
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+_Derzeit ist der Pflegestufenrechner in der Entwicklung und noch nicht fertiggestellt. Es kann zu Fehlern und unvollständigen Funktionen kommen!_
 
-Currently, two official plugins are available:
+Der Pflegestufenrechner ist ein einfach zu bedienendes Tool, um die Pflegestufe einer Person zu berechnen. Er orientiert sich dabei am österreichischen [Bundespflegegeldgesetz](https://www.ris.bka.gv.at/GeltendeFassung.wxe?Abfrage=Bundesnormen&Gesetzesnummer=10008859) und der dazugehörigen [Einstufungsverordnung](https://www.ris.bka.gv.at/GeltendeFassung.wxe?Abfrage=Bundesnormen&Gesetzesnummer=10009142).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Inhaltliches
 
-## Expanding the ESLint configuration
+Der Pflegestufenrechner basiert auf den Informationen, die aus den relevanten Gesetzen abgeleitet werden können. Es wird aber auch praktisches Zusatzwissen von Gesundheitsexpert:innen verwendet, um hilfreiche Informationen zu den einzelnen Feldern zu liefern.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Der Rechner ist für alle Interessierten gedacht, die sich einen Überblick über die Pflegestufe einer Person verschaffen wollen. Auch Angehörige von professionellen Pflegeberufen können dieses Tool verwenden, um eine erste Einschätzung zu bekommen.
 
-- Configure the top-level `parserOptions` property like this:
+Der Rechner ist **NICHT** dazu gedacht, eine offizielle Einstufung zu **ERSETZEN**. Der Einstufungsprozess ist ein individueller und komplexer Vorgang, der nur sehr schwer durch ein Tool abgebildet werden kann. Die Einstufung wird **IMMER** durch ein **Sachverständigengutachten** mit einem persönlichen Gespräch und Begutachtung durchgeführt.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+**Es wird keine Haftung für die Richtigkeit der Ergebnisse übernommen!**
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Datenschutz
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Der Rechner verfolgt **kein kommerzielles Interesse**. Es werden **keine Daten** gesammelt. Die Seite verwendet **keine Cookies**, die Funktionalität wird ausschließlich durch den Code zur Verfügung gestellt. Es gibt auch keine Werbung auf der Seite.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Funktionen und Features
+
+- Modernes und einfaches Design
+- Einfache Bedienung
+- Mobile-First Design
+- Einfache Auswahl der einzelnen Felder
+- Schnelle Navigationen nach dem initalen Laden der Seite
+- Zusätzliche Informationen zu den einzelnen Feldern
+- Anzeige von Felder, die sich ausschließen und damit nicht gemeinsam ausgewählt werden können
+- Anzeige der errechneten Pflegestufe
+- Felder werden auch nach dem Absenden beibehalten
+
+#### Zukünftige Features:
+
+- Speichern des Ergebnisses mit allen ausgewählten Feldern
+- Erklärung beim Ergenis, wie die Pflegestufe zustande gekommen ist
+- Implementierung der Motivationsgespräche, die für eine genauere Einstufung notwendig sind.
+
+## Technischer Teil
+
+Der Rechner wird in [React](https://react.dev/) entwickelt und verwendet [Vite](https://vitejs.dev/) als Build Tool mit [SWC](https://swc.rs/). Außerdem wird [TypeScript](https://www.typescriptlang.org/) verwendet und die Codequalität wird mit [ESLint](https://eslint.org/). Die Styles werden mit [Tailwind CSS](https://tailwindcss.com/) erstellt. [React Router](https://reactrouter.com/en/main) wird verwendet, um die Navigation zu ermöglichen.
+
+## Hosting
+
+Der Pflegestufenrechner wird derzeit kostenlos auf [GitHub Pages](https://pages.github.com/) gehostet und ist unter [https://defnot001.github.io/pflegestufenrechner](https://defnot001.github.io/pflegestufenrechner) aufrufbar. Sollten die Anfragen das Limit von GitHub Pages überschreiten, wird ein anderes Hosting in Betracht gezogen.
+
+## Fehler und Verbesserungen
+
+Wenn Ihnen Fehler in der Funktion oder im Design auffallen, oder Sie Verbesserungsvorschläge haben, können Sie gerne ein [Issue](https://github.com/defnot001/pflegestufenrechner/issues) erstellen. Wenn Sie bei der Entwicklung helfen wollen, öffnen Sie bitte zuerst ein Issue, um zu diskutieren, was verbessert werden kann. Danach freue ich mich über Pull Requests.
+
+## Lizenz
+
+Der Pflegestufenrechner ist unter der [MIT Lizenz](https://opensource.org/license/mit) veröffentlicht. Der Code kann frei verwendet und verändert werden, solange die Lizenzbedingungen eingehalten werden.
