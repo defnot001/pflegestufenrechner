@@ -44,7 +44,7 @@ export function CareCalculator() {
   };
 
   return (
-    <div className='h-[50shv] max-w-2xl mx-auto px-4'>
+    <div className='h-svh max-w-2xl mx-auto px-4'>
       <div className='mb-16'>
         <MainHeader />
         {categories.map((category) => (
