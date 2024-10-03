@@ -1,17 +1,18 @@
 import { useState } from 'react';
 import { MainHeader } from './ui/header';
 import { Button } from './ui/button';
-import { categories, Field } from '../lib/categories';
+import { categories, Field, FieldId } from '../lib/categories';
 import { CategoryField } from './ui/category-field';
 import { ResultDialog } from './ui/result-dialog';
 import { ExclusiveDialog } from './ui/exclusive-warning';
 import { DependencyDialog } from './ui/dependency-warning.tsx';
+import { calculatePflegestufe } from '../lib/calculation.ts';
 
 export function CareCalculator() {
-  const [selectedFields, setSelectedFields] = useState<Set<string>>(new Set());
+  const [selectedFields, setSelectedFields] = useState<Set<FieldId>>(new Set());
   const [exclusiveWarning, setExclusiveWarning] = useState<string | null>(null);
   const [dependencyWarning, setDependencyWarning] = useState<string | null>(null);
-  const [calculationResult, setCalculationResult] = useState<string | null>(null);
+  const [calculationResult, setCalculationResult] = useState<number | null>(null);
   const [isResultDialogOpen, setIsResultDialogOpen] = useState(false);
 
   const handleFieldChange = (field: Field) => {
@@ -52,7 +53,7 @@ export function CareCalculator() {
 
   const handleSubmit = () => {
     // Implement your calculation logic here
-    const result = `Selected fields: ${Array.from(selectedFields).join(', ')}`;
+    const result = calculatePflegestufe(Array.from(selectedFields));
     setCalculationResult(result);
     setIsResultDialogOpen(true);
   };

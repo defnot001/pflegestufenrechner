@@ -4,7 +4,7 @@ import { Button } from './button';
 interface ResultDialogProps {
   isResultDialogOpen: boolean;
   setIsResultDialogOpen: (open: boolean) => void;
-  calculationResult: string | null;
+  calculationResult: number | null;
 }
 
 export function ResultDialog({
@@ -17,7 +17,7 @@ export function ResultDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Berechnungsergebnis</DialogTitle>
-          <DialogDescription>{calculationResult}</DialogDescription>
+          <DialogDescription>Pflegestufe {calculationResult}</DialogDescription>
         </DialogHeader>
         <Button onClick={() => setIsResultDialogOpen(false)}>Schließen</Button>
       </DialogContent>
