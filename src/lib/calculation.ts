@@ -1,3 +1,4 @@
+import { FieldState } from '../components/care-calculator';
 import { categories, Field, FieldId } from './categories';
 
 //   1: >= 65 & staendigerPflegebedarf
@@ -57,7 +58,7 @@ const pflegestufeConditions: PflegestufeCondition[] = [
   },
 ];
 
-export function calculatePflegestufe(selectedFields: FieldId[]): number {
+export function calculatePflegestufe(selectedFields: Map<FieldId, FieldState>): number {
   let monthlyMinuteCounter = 0;
 
   const fieldMap = new Map<FieldId, Field>();
@@ -68,21 +69,30 @@ export function calculatePflegestufe(selectedFields: FieldId[]): number {
     }
   }
 
-  for (const fieldId of selectedFields) {
+  for (const [fieldId, state] of selectedFields.entries()) {
     const field = fieldMap.get(fieldId);
 
-    if (field && field.dailyMinutes !== undefined) {
-      monthlyMinuteCounter += field.dailyMinutes * 30;
+    if (field) {
+      let dailyMinutes = 0;
+
+      if (state === 'support' && field.dailyMinutes !== undefined) {
+        dailyMinutes = field.dailyMinutes;
+      } else if (state === 'motivation' && field.motivationMinutes !== undefined) {
+        dailyMinutes = field.motivationMinutes;
+      }
+
+      monthlyMinuteCounter += dailyMinutes * 30;
     }
   }
 
   const monthlyHours = Math.round(monthlyMinuteCounter / 60);
 
   let pflegestufe = 0;
+  const selectedFieldIds = Array.from(selectedFields.keys());
 
   for (const condition of pflegestufeConditions) {
     const meetsHoursRequirement = monthlyHours >= condition.minHours;
-    const hasRequiredField = selectedFields.includes(condition.requiredFieldId);
+    const hasRequiredField = selectedFieldIds.includes(condition.requiredFieldId);
 
     if (meetsHoursRequirement && hasRequiredField) {
       pflegestufe = condition.pflegestufe;

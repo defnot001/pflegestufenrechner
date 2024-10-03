@@ -8,8 +8,10 @@ import { ExclusiveDialog } from './ui/exclusive-warning';
 import { DependencyDialog } from './ui/dependency-warning.tsx';
 import { calculatePflegestufe } from '../lib/calculation.ts';
 
+export type FieldState = 'unselected' | 'support' | 'motivation';
+
 export function CareCalculator() {
-  const [selectedFields, setSelectedFields] = useState<Set<FieldId>>(new Set());
+  const [selectedFields, setSelectedFields] = useState<Map<FieldId, FieldState>>(new Map());
   const [exclusiveWarning, setExclusiveWarning] = useState<string | null>(null);
   const [dependencyWarning, setDependencyWarning] = useState<string | null>(null);
   const [calculationResult, setCalculationResult] = useState<number | null>(null);
@@ -17,44 +19,60 @@ export function CareCalculator() {
 
   const handleFieldChange = (field: Field) => {
     setSelectedFields((prev) => {
-      const newSet = new Set(prev);
+      const newMap = new Map(prev);
+      const currentState = newMap.get(field.id) || 'unselected';
 
-      if (newSet.has(field.id)) {
-        newSet.delete(field.id);
+      let nextState: FieldState = 'unselected';
+
+      if (field.motivationMinutes !== undefined) {
+        if (currentState === 'unselected') {
+          nextState = 'support';
+        } else if (currentState === 'support') {
+          nextState = 'motivation';
+        } else {
+          nextState = 'unselected';
+        }
       } else {
-        // Check for exclusivity conflicts
-        if (field.exclusive) {
-          const conflictingField = field.exclusive.find((excl) =>
-            newSet.has(excl.conflictingFieldId)
-          );
-
-          if (conflictingField) {
-            setExclusiveWarning(conflictingField.conflictMessage);
-            return prev;
-          }
-        }
-
-        // Check for unmet dependencies
-        if (field.dependent) {
-          const unmetDependency = field.dependent.find((dep) => !newSet.has(dep.requiredField));
-
-          if (unmetDependency) {
-            setDependencyWarning(unmetDependency.requiredMessage);
-            return prev;
-          }
-        }
-
-        newSet.add(field.id);
+        nextState = currentState === 'unselected' ? 'support' : 'unselected';
       }
 
-      return newSet;
+      if (nextState !== 'unselected' && field.exclusive) {
+        const conflictingField = field.exclusive.find(
+          (excl) =>
+            newMap.has(excl.conflictingFieldId) &&
+            newMap.get(excl.conflictingFieldId) !== 'unselected'
+        );
+
+        if (conflictingField) {
+          setExclusiveWarning(conflictingField.conflictMessage);
+          return prev;
+        }
+      }
+
+      if (nextState !== 'unselected' && field.dependent) {
+        const unmetDependency = field.dependent.find(
+          (dep) => !newMap.has(dep.requiredField) || newMap.get(dep.requiredField) === 'unselected'
+        );
+
+        if (unmetDependency) {
+          setDependencyWarning(unmetDependency.requiredMessage);
+          return prev;
+        }
+      }
+
+      if (nextState === 'unselected') {
+        newMap.delete(field.id);
+      } else {
+        newMap.set(field.id, nextState);
+      }
+
+      return newMap;
     });
   };
 
   const handleSubmit = () => {
-    // Implement your calculation logic here
-    const result = calculatePflegestufe(Array.from(selectedFields));
-    setCalculationResult(result);
+    const pflegestufe = calculatePflegestufe(selectedFields);
+    setCalculationResult(pflegestufe);
     setIsResultDialogOpen(true);
   };
 

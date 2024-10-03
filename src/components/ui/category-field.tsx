@@ -1,4 +1,4 @@
-import { Field } from '../../lib/categories';
+import { Field, FieldId } from '../../lib/categories';
 import {
   Dialog,
   DialogContent,
@@ -7,24 +7,43 @@ import {
   DialogTitle,
   DialogTrigger,
 } from './dialog';
-import { Button } from './button';
+import { Button, ButtonProps } from './button';
 import { Info } from 'lucide-react';
+import { FieldState } from '../care-calculator';
 
 interface CategoryFieldProps {
   field: Field;
-  selectedFields: Set<string>;
+  selectedFields: Map<FieldId, FieldState>;
   handleFieldChange: (field: Field) => void;
 }
 
 export function CategoryField({ field, selectedFields, handleFieldChange }: CategoryFieldProps) {
+  const fieldState = selectedFields.get(field.id) || 'unselected';
+
+  let buttonText = field.label;
+
+  if (field.motivationMinutes !== undefined) {
+    if (fieldState === 'support') {
+      buttonText += ' (Unterstützung)';
+    } else if (fieldState === 'motivation') {
+      buttonText += ' (Motivation)';
+    }
+  }
+
+  let buttonVariant: ButtonProps['variant'] = 'outline';
+
+  if (fieldState === 'support' || fieldState === 'motivation') {
+    buttonVariant = 'default';
+  }
+
   return (
     <div key={field.id} className='flex'>
       <Button
-        variant={selectedFields.has(field.id) ? 'default' : 'outline'}
+        variant={buttonVariant}
         className='flex-grow justify-start h-12 px-4 text-left rounded-r-none'
         onClick={() => handleFieldChange(field)}
       >
-        {field.label}
+        {buttonText}
       </Button>
       <Dialog>
         <DialogTrigger asChild>
