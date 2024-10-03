@@ -1,13 +1,14 @@
 import { FieldState } from '../components/care-calculator';
-import { categories, Field, FieldId } from './categories';
+import { Field, FieldId } from './categories';
 
-//   1: >= 65 & staendigerPflegebedarf
-//   2: >= 95 & staendigerPflegebedarf
-//   3: >= 120 & staendigerPflegebedarf
-//   4: >= 160 & staendigerPflegebedarf
-//   5: >= 180 & aussergewoehnlicherPflegebedarf
-//   6: >= 180 & unkoordinierbareBetreuung
-//   7: >= 180 & keineZielgerichteteBewegung
+/**
+ * behinderungErwachsene: stufe 3
+ * behinderungErwachsene + BehinderungErwachseneStuhlHarn: stufe 4
+ * behinderungErwachsene + BehinderungErwachseneObereExtremitaet: stufe 5
+ * sehbehinderung: stufe 3
+ * blindheit: stufe 4
+ * taubblindheit: stufe 5
+ */
 
 type PflegestufeCondition = {
   pflegestufe: number;
@@ -58,16 +59,11 @@ const pflegestufeConditions: PflegestufeCondition[] = [
   },
 ];
 
-export function calculatePflegestufe(selectedFields: Map<FieldId, FieldState>): number {
+export function calculatePflegestufe(
+  selectedFields: Map<FieldId, FieldState>,
+  fieldMap: Map<FieldId, Field>
+): number {
   let monthlyMinuteCounter = 0;
-
-  const fieldMap = new Map<FieldId, Field>();
-
-  for (const category of categories) {
-    for (const field of category.fields) {
-      fieldMap.set(field.id, field);
-    }
-  }
 
   for (const [fieldId, state] of selectedFields.entries()) {
     const field = fieldMap.get(fieldId);
@@ -99,6 +95,34 @@ export function calculatePflegestufe(selectedFields: Map<FieldId, FieldState>): 
       break;
     }
   }
+
+  let minimalPflegestufe = 0;
+
+  if (selectedFieldIds.includes('behinderungErwachsene')) {
+    minimalPflegestufe = 3;
+
+    if (selectedFieldIds.includes('BehinderungErwachseneStuhlHarn')) {
+      minimalPflegestufe = Math.max(minimalPflegestufe, 4);
+    }
+
+    if (selectedFieldIds.includes('BehinderungErwachseneObereExtremitaet')) {
+      minimalPflegestufe = Math.max(minimalPflegestufe, 5);
+    }
+  }
+
+  if (selectedFieldIds.includes('sehbehinderung')) {
+    minimalPflegestufe = Math.max(minimalPflegestufe, 3);
+  }
+
+  if (selectedFieldIds.includes('blindheit')) {
+    minimalPflegestufe = Math.max(minimalPflegestufe, 4);
+  }
+
+  if (selectedFieldIds.includes('taubblindheit')) {
+    minimalPflegestufe = Math.max(minimalPflegestufe, 5);
+  }
+
+  pflegestufe = Math.max(pflegestufe, minimalPflegestufe);
 
   return pflegestufe;
 }

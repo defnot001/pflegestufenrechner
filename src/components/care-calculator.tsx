@@ -7,6 +7,7 @@ import { ResultDialog } from './ui/result-dialog';
 import { ExclusiveDialog } from './ui/exclusive-warning';
 import { DependencyDialog } from './ui/dependency-warning.tsx';
 import { calculatePflegestufe } from '../lib/calculation.ts';
+import { fieldMap } from '../lib/fieldMap.ts';
 
 export type FieldState = 'unselected' | 'support' | 'motivation';
 
@@ -62,6 +63,19 @@ export function CareCalculator() {
 
       if (nextState === 'unselected') {
         newMap.delete(field.id);
+
+        for (const [fieldId, _] of newMap.entries()) {
+          const dependentField = fieldMap.get(fieldId);
+          if (dependentField && dependentField.dependent) {
+            const isDependent = dependentField.dependent.some(
+              (dep) => dep.requiredField === field.id
+            );
+
+            if (isDependent) {
+              newMap.delete(fieldId);
+            }
+          }
+        }
       } else {
         newMap.set(field.id, nextState);
       }
@@ -71,7 +85,7 @@ export function CareCalculator() {
   };
 
   const handleSubmit = () => {
-    const pflegestufe = calculatePflegestufe(selectedFields);
+    const pflegestufe = calculatePflegestufe(selectedFields, fieldMap);
     setCalculationResult(pflegestufe);
     setIsResultDialogOpen(true);
   };
