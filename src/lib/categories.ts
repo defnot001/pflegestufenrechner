@@ -251,7 +251,7 @@ export const categories: Category[] = [
         dailyMinutes: dailyMinutes(50),
         label: 'Schwere Behinderung (Kinder)',
         description:
-          'Pauschalwertung für die Pflege und Betreuung von schwerst behinderten Kindern bis zum vollendeten 7. Lebensjahr. Für diese Wertung müssen mindestens zwei voneinander unabhängige schwere Funktionseinschränkungen vorliegen.',
+          'Pauschalwertung für die Pflege und Betreuung von schwerst behinderten / beeinträchtigten Kindern bis zum vollendeten 7. Lebensjahr. Für diese Wertung müssen mindestens zwei voneinander unabhängige schwere Funktionseinschränkungen vorliegen.',
         exclusive: [
           {
             conflictingFieldId: 'geistigeBehinderungJugend',
@@ -270,7 +270,7 @@ export const categories: Category[] = [
         dailyMinutes: dailyMinutes(75),
         label: 'Schwere Behinderung (Jugendliche)',
         description:
-          'Pauschalwertung für die Pflege und Betreuung von schwerst behinderten Kindern und Jugendlichen ab dem vollendeten 7. Lebensjahr bis zum vollendeten 15. Lebensjahr. Für diese Wertung müssen mindestens zwei voneinander unabhängige schwere Funktionseinschränkungen vorliegen.',
+          'Pauschalwertung für die Pflege und Betreuung von schwerst behinderten / beeinträchtigten Kindern und Jugendlichen ab dem vollendeten 7. Lebensjahr bis zum vollendeten 15. Lebensjahr. Für diese Wertung müssen mindestens zwei voneinander unabhängige schwere Funktionseinschränkungen vorliegen.',
         exclusive: [
           {
             conflictingFieldId: 'geistigeBehinderungKind',
@@ -289,7 +289,7 @@ export const categories: Category[] = [
         dailyMinutes: dailyMinutes(45),
         label: 'geisitge Behinderung (Erwachsene)',
         description:
-          'Pauschalwertung für die Betreuung von Menschen mit schweren geistigen oder psychischen Behinderungen ab dem vollendeten 15. Lebensjahr. Vor allem demezielle Erkrankungen werden hierbei gewertet.',
+          'Pauschalwertung für die Betreuung von Menschen mit schweren geistigen oder psychischen Behinderungen / Beeinträchtigungen ab dem vollendeten 15. Lebensjahr. Vor allem demezielle Erkrankungen werden hierbei gewertet.',
         exclusive: [
           {
             conflictingFieldId: 'geistigeBehinderungKind',
@@ -316,7 +316,6 @@ export const categories: Category[] = [
       },
       {
         id: 'aussergewoehnlicherPflegebedarf',
-        dailyMinutes: dailyMinutes(75),
         label: 'Außergewöhnlicher Pflegebedarf',
         description:
           'Ein außergewöhnlicher Pflegeaufwand liegt insbesondere vor, wenn die dauernde Bereitschaft, nicht jedoch die dauernde Anwesenheit einer Pflegeperson oder die regelmäßige Nachschau durch eine Pflegeperson in relativ kurzen, jedoch planbaren Zeitabständen erforderlich ist, wobei zumindest eine einmalige Nachschau auch in den Nachtstunden erforderlich sein muss oder mehr als 5 Pflegeeinheiten, davon eine auch in den Nachtstunden, erforderlich sind.',
@@ -342,7 +341,7 @@ export const categories: Category[] = [
         id: 'behinderungErwachsene',
         label: 'Behinderung Erwachsene',
         description:
-          'Personen, die das 14. Lebensjahr vollendet haben und auf Grund einer Querschnittlähmung, einer beidseitigen Beinamputation, einer genetischen Muskeldystrophie, einer Encephalitis disseminata oder einer infantilen Cerebralparese zur eigenständigen Lebensführung überwiegend auf den selbständigen Gebrauch eines Rollstuhles oder eines technisch adaptierten Rollstuhles angewiesen sind.',
+          'Personen, die das 14. Lebensjahr vollendet haben und auf Grund einer Querschnittlähmung, einer beidseitigen Beinamputation, einer genetischen Muskeldystrophie, einer Encephalitis disseminata (MS) oder einer infantilen Cerebralparese zur eigenständigen Lebensführung überwiegend auf den selbständigen Gebrauch eines Rollstuhles oder eines technisch adaptierten Rollstuhles angewiesen sind.',
       },
       {
         id: 'BehinderungErwachseneStuhlHarn',
