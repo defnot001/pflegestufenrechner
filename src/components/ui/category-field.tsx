@@ -1,4 +1,4 @@
-import { Exclusivity, Field } from '../../lib/categories';
+import { Field } from '../../lib/categories';
 import {
   Dialog,
   DialogContent,
@@ -13,7 +13,7 @@ import { Info } from 'lucide-react';
 interface CategoryFieldProps {
   field: Field;
   selectedFields: Set<string>;
-  handleFieldChange: (fieldId: string, exclusive?: Exclusivity[]) => void;
+  handleFieldChange: (field: Field) => void;
 }
 
 export function CategoryField({ field, selectedFields, handleFieldChange }: CategoryFieldProps) {
@@ -22,7 +22,7 @@ export function CategoryField({ field, selectedFields, handleFieldChange }: Cate
       <Button
         variant={selectedFields.has(field.id) ? 'default' : 'outline'}
         className='flex-grow justify-start h-12 px-4 text-left rounded-r-none'
-        onClick={() => handleFieldChange(field.id, field.exclusive)}
+        onClick={() => handleFieldChange(field)}
       >
         {field.label}
       </Button>
