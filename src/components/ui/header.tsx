@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Github, FileText, Scale, User } from 'lucide-react';
+import { FileText, Scale, User } from 'lucide-react';
 
 export function MainHeader() {
   return (
@@ -23,15 +23,6 @@ export function MainHeader() {
           <User className='w-4 h-4 mr-1' />
           <span>Impressum</span>
         </Link>
-        <a
-          href='https://github.com/defnot001/pflegestufenrechner'
-          target='_blank'
-          rel='noopener noreferrer'
-          className='flex items-center text-blue-600 hover:text-blue-800'
-        >
-          <Github className='w-4 h-4 mr-1' />
-          <span>GitHub</span>
-        </a>
       </nav>
     </header>
   );
