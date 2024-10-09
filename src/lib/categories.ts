@@ -59,6 +59,17 @@ export type FieldId =
 
 export const categories: Category[] = [
   {
+    name: 'Voraussetzung',
+    fields: [
+      {
+        id: 'staendigerPflegebedarf',
+        label: 'Ständiger Pflegebedarf',
+        description:
+          'Ständiger Pflegebedarf liegt vor, wenn dieser täglich oder zumindest mehrmals wöchentlich regelmäßig gegeben ist. Ohne diese Voraussetzung kann kein Pflegegeld zuerkannt werden.',
+      },
+    ],
+  },
+  {
     name: 'Betreuung',
     fields: [
       {
@@ -308,12 +319,6 @@ export const categories: Category[] = [
   {
     name: 'Erschwernisse',
     fields: [
-      {
-        id: 'staendigerPflegebedarf',
-        label: 'Ständiger Pflegebedarf',
-        description:
-          'Ständiger Pflegebedarf liegt vor, wenn dieser täglich oder zumindest mehrmals wöchentlich regelmäßig gegeben ist. Ohne diese Voraussetzung kann kein Pflegegeld zuerkannt werden.',
-      },
       {
         id: 'aussergewoehnlicherPflegebedarf',
         label: 'Außergewöhnlicher Pflegebedarf',
