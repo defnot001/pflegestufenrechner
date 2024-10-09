@@ -4,11 +4,6 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
-      colors: {
-        'dw-light': '#B2E3F7',
-        'dw-medium': '#0378AB',
-        'dw-dark': '#162E65',
-      },
       fontFamily: {
         sans: ['Montserrat', 'ui-sans-serif', 'system-ui'],
       },
@@ -29,6 +24,12 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
+        dw: {
+          100: '#B2E3F7',
+          200: '#0095DB',
+          300: '#0378AB',
+          400: '#162E65',
+        },
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
