@@ -91,12 +91,12 @@ export function CareCalculator() {
   };
 
   return (
-    <div className='h-svh max-w-2xl mx-auto px-4'>
+    <div className='h-svh max-w-2xl mx-auto px-4 mt-6'>
       <div className='mb-16'>
         <MainHeader />
         {categories.map((category) => (
           <div key={category.name} className='mb-6'>
-            <h2 className='text-xl font-semibold mb-3 text-center'>{category.name}</h2>
+            <h2 className='text-2xl text-dw-400 font-semibold mb-3 text-center'>{category.name}</h2>
             <div className='space-y-2'>
               {category.fields.map((field) => (
                 <CategoryField
